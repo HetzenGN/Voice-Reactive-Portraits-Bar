@@ -1,0 +1,495 @@
+{{!-- templates/reactive-user-config.hbs --}}
+
+<div class="max-headroom-user-config__content">
+
+  {{!-- #region Introduction --}}
+
+  <header class="max-headroom-user-config__intro">
+
+    <div class="max-headroom-user-config__intro-main">
+
+      <div>
+        <p>
+          Configure the Discord mapping and reactive portrait artwork
+          for each Foundry User.
+        </p>
+
+        <p class="notes">
+          These images are independent from Actor portraits, Tokens,
+          character assignments, and Foundry User avatars.
+        </p>
+      </div>
+
+
+      <button
+        type="button"
+        class="max-headroom-user-config__discord-refresh"
+        data-action="refreshDiscordUsers"
+        title="Refresh the list of Discord users detected by the relay extension"
+      >
+        <i class="fa-solid fa-rotate"></i>
+        Refresh Discord List
+      </button>
+
+    </div>
+
+
+    <div class="max-headroom-user-config__discord-summary">
+
+      {{#if hasDetectedDiscordUsers}}
+
+        <i class="fa-solid fa-circle max-headroom-user-config__discord-online"></i>
+
+        <span>
+          Discord users currently detected:
+          <strong>{{detectedDiscordCount}}</strong>
+        </span>
+
+      {{else}}
+
+        <i class="fa-regular fa-circle"></i>
+
+        <span>
+          No Discord users currently detected.
+        </span>
+
+      {{/if}}
+
+    </div>
+
+  </header>
+
+  {{!-- #endregion --}}
+
+
+  {{!-- #region User Configuration --}}
+
+  <section class="max-headroom-user-config__users">
+
+    {{#each users}}
+
+      <details
+        class="max-headroom-user-config__user"
+        data-role="user-config-row"
+        data-user-id="{{userId}}"
+      >
+
+        <summary class="max-headroom-user-config__user-summary">
+
+          <span class="max-headroom-user-config__user-summary-line">
+
+            <strong class="max-headroom-user-config__user-name">
+              {{name}}
+            </strong>
+
+            <label class="max-headroom-user-config__enabled">
+              <input
+                type="checkbox"
+                data-field="enabled"
+                {{#if config.enabled}}checked{{/if}}
+              >
+
+              <span>Enabled</span>
+            </label>
+
+          </span>
+
+        </summary>
+
+
+        <div class="max-headroom-user-config__user-body">
+
+          {{!-- #region User Mapping --}}
+
+          <div class="max-headroom-user-config__mapping">
+
+
+        <div class="max-headroom-user-config__discord-mapping">
+
+          <label>
+            <span>Discord User</span>
+
+            <select
+              data-field="discordUserId"
+            >
+
+              <option
+                value=""
+                {{#if discordMapping.noneSelected}}selected{{/if}}
+              >
+                Not Assigned
+              </option>
+
+
+              {{#if discordMapping.hasPresentOptions}}
+
+                <optgroup label="Detected in Voice">
+
+                  {{#each discordMapping.presentOptions}}
+
+                    <option
+                      value="{{discordUserId}}"
+                      {{#if selected}}selected{{/if}}
+                    >
+                      {{displayName}}
+                    </option>
+
+                  {{/each}}
+
+                </optgroup>
+
+              {{/if}}
+
+
+              {{#if discordMapping.hasPreviousOptions}}
+
+                <optgroup label="Previously Detected">
+
+                  {{#each discordMapping.previousOptions}}
+
+                    <option
+                      value="{{discordUserId}}"
+                      {{#if selected}}selected{{/if}}
+                    >
+                      {{displayName}}
+                    </option>
+
+                  {{/each}}
+
+                </optgroup>
+
+              {{/if}}
+
+
+              {{#if discordMapping.missingCurrentOption}}
+
+                <optgroup label="Current Mapping">
+
+                  <option
+                    value="{{discordMapping.missingCurrentOption.discordUserId}}"
+                    selected
+                  >
+                    {{discordMapping.missingCurrentOption.displayName}}
+                  </option>
+
+                </optgroup>
+
+              {{/if}}
+
+            </select>
+
+          </label>
+
+
+          <details class="max-headroom-user-config__discord-manual">
+
+            <summary>
+              Manual Discord ID
+            </summary>
+
+            <input
+              type="text"
+              data-field="manualDiscordUserId"
+              value=""
+              placeholder="123456789012345678"
+              autocomplete="off"
+            >
+
+            <p class="notes">
+              Advanced fallback. A manually entered ID overrides
+              the selected Discord user when saving.
+            </p>
+
+          </details>
+
+        </div>
+
+
+          <label class="max-headroom-user-config__sort">
+            <span>Sort Order</span>
+
+            <input
+              type="number"
+              data-field="sortOrder"
+              value="{{config.sortOrder}}"
+              step="1"
+            >
+          </label>
+
+        </div>
+
+        {{!-- #endregion --}}
+
+        {{!-- #region Portrait Display Name --}}
+
+        <div class="max-headroom-user-config__display-name">
+
+          <label>
+            <span>Portrait Name</span>
+
+            <select
+              data-field="displayNameMode"
+            >
+              <option
+                value="user"
+                {{#if displayName.userSelected}}selected{{/if}}
+              >
+                Player — {{displayName.userName}}
+              </option>
+
+              <option
+                value="character"
+                {{#if displayName.characterSelected}}selected{{/if}}
+              >
+                Player Character —
+                {{#if displayName.hasCharacter}}
+                  {{displayName.characterName}}
+                {{else}}
+                  None Assigned
+                {{/if}}
+              </option>
+
+              <option
+                value="custom"
+                {{#if displayName.customSelected}}selected{{/if}}
+              >
+                Custom
+              </option>
+            </select>
+          </label>
+
+
+          <label>
+            <span>Custom Name</span>
+
+            <input
+              type="text"
+              data-field="customDisplayName"
+              value="{{config.customDisplayName}}"
+              placeholder="Used when Custom is selected"
+              autocomplete="off"
+            >
+          </label>
+
+        </div>
+
+        {{!-- #endregion --}}
+
+        {{!-- #region Reactive Images --}}
+
+        <div class="max-headroom-user-config__images">
+
+          {{!-- Idle Image --}}
+
+          <div class="max-headroom-user-config__image-field">
+
+            <label>
+              Idle Image
+            </label>
+
+            <div class="max-headroom-user-config__file-input">
+
+              <input
+                type="text"
+                name="idleImage-{{userId}}"
+                data-field="idleImage"
+                value="{{config.idleImage}}"
+                placeholder="Path to idle image"
+              >
+
+              <button
+                type="button"
+                data-action="browseImage"
+                data-type="image"
+                data-target="idleImage-{{userId}}"
+                data-user-id="{{userId}}"
+                data-field="idleImage"
+                title="Browse for idle image"
+              >
+                <i class="fa-solid fa-folder-open"></i>
+              </button>
+
+              <button
+                type="button"
+                data-action="clearImage"
+                data-user-id="{{userId}}"
+                data-field="idleImage"
+                title="Clear idle image"
+                aria-label="Clear idle image"
+              >
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+
+            </div>
+
+            <div
+              class="max-headroom-user-config__preview {{#unless config.idleImage}}is-empty{{/unless}}"
+              data-preview-field="idleImage"
+            >
+              {{#if config.idleImage}}
+                <img
+                  src="{{config.idleImage}}"
+                  alt=""
+                  draggable="false"
+                >
+              {{else}}
+                <span>No image selected</span>
+              {{/if}}
+            </div>
+
+          </div>
+
+
+          {{!-- Talking Image --}}
+
+          <div class="max-headroom-user-config__image-field">
+
+            <label>
+              Talking Image
+            </label>
+
+            <div class="max-headroom-user-config__file-input">
+
+              <input
+                type="text"
+                name="talkingImage-{{userId}}"
+                data-field="talkingImage"
+                value="{{config.talkingImage}}"
+                placeholder="Path to talking image"
+              >
+
+              <button
+                type="button"
+                data-action="browseImage"
+                data-type="image"
+                data-target="talkingImage-{{userId}}"
+                data-user-id="{{userId}}"
+                data-field="talkingImage"
+                title="Browse for talking image"
+              >
+                <i class="fa-solid fa-folder-open"></i>
+              </button>
+
+              <button
+                type="button"
+                data-action="clearImage"
+                data-user-id="{{userId}}"
+                data-field="talkingImage"
+                title="Clear talking image and fall back to idle"
+                aria-label="Clear talking image"
+              >
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+
+            </div>
+
+            <div
+              class="max-headroom-user-config__preview {{#unless config.talkingImage}}is-empty{{/unless}}"
+              data-preview-field="talkingImage"
+            >
+              {{#if config.talkingImage}}
+                <img
+                  src="{{config.talkingImage}}"
+                  alt=""
+                  draggable="false"
+                >
+              {{else}}
+                <span>Falls back to idle</span>
+              {{/if}}
+            </div>
+
+          </div>
+
+
+          {{!-- Muted Image --}}
+
+          <div class="max-headroom-user-config__image-field">
+
+            <label>
+              Muted Image
+            </label>
+
+            <div class="max-headroom-user-config__file-input">
+
+              <input
+                type="text"
+                name="mutedImage-{{userId}}"
+                data-field="mutedImage"
+                value="{{config.mutedImage}}"
+                placeholder="Optional muted image"
+              >
+
+              <button
+                type="button"
+                data-action="browseImage"
+                data-type="image"
+                data-target="mutedImage-{{userId}}"
+                data-user-id="{{userId}}"
+                data-field="mutedImage"
+                title="Browse for muted image"
+              >
+                <i class="fa-solid fa-folder-open"></i>
+              </button>
+
+              <button
+                type="button"
+                data-action="clearImage"
+                data-user-id="{{userId}}"
+                data-field="mutedImage"
+                title="Clear muted image"
+                aria-label="Clear muted image"
+              >
+                <i class="fa-solid fa-xmark"></i>
+              </button>
+
+            </div>
+
+            <div
+              class="max-headroom-user-config__preview {{#unless config.mutedImage}}is-empty{{/unless}}"
+              data-preview-field="mutedImage"
+            >
+              {{#if config.mutedImage}}
+                <img
+                  src="{{config.mutedImage}}"
+                  alt=""
+                  draggable="false"
+                >
+              {{else}}
+                <span>Optional</span>
+              {{/if}}
+            </div>
+
+          </div>
+
+        </div>
+
+    {{!-- #endregion --}}
+
+      </div>
+
+    </details>
+
+    {{/each}}
+
+  </section>
+
+  {{!-- #endregion --}}
+
+
+  {{!-- #region Footer --}}
+
+  <footer class="max-headroom-user-config__footer">
+
+    <button
+      type="submit"
+      class="max-headroom-user-config__save"
+    >
+      <i class="fa-solid fa-floppy-disk"></i>
+      Save Configuration
+    </button>
+
+  </footer>
+
+  {{!-- #endregion --}}
+
+</div>

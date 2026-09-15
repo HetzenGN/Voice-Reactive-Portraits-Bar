@@ -1,0 +1,821 @@
+// scripts/portraits/portrait-config-app.js
+
+// #region Imports
+
+import {
+  MODULE_ID
+} from "../../shared/protocol.js";
+
+import {
+  getAllReactivePortraitConfigs,
+  setReactivePortraitConfig
+} from "./portrait-flags.js";
+
+import {
+  portraitBar
+} from "./portrait-bar.js";
+
+import {
+  discordUserDirectory
+} from "../relay/discord-user-directory.js";
+
+// #endregion
+
+
+// #region Foundry API
+
+const {
+  ApplicationV2,
+  HandlebarsApplicationMixin
+} = foundry.applications.api;
+
+const {
+  FilePicker
+} = foundry.applications.apps;
+
+// #endregion
+
+
+// #region Constants
+
+export const PORTRAIT_CONFIG_MENU_KEY =
+  "reactivePortraitUsers";
+
+// #endregion
+
+// #region Discord Mapping Context
+
+function makeMappedIdLabel(
+  discordUserId
+) {
+  const normalized =
+    String(
+      discordUserId
+      ?? ""
+    ).trim();
+
+  if (!normalized) {
+    return "";
+  }
+
+  const suffix =
+    normalized.slice(-6);
+
+  return `Previously mapped Discord user …${suffix}`;
+}
+
+function buildDiscordMappingContext(
+  config,
+  discoveredUsers
+) {
+  const configuredDiscordUserId =
+    String(
+      config?.discordUserId
+      ?? ""
+    ).trim();
+
+
+  const presentOptions = [];
+  const previousOptions = [];
+
+  let configuredUserFound =
+    false;
+
+
+  for (
+    const discoveredUser
+    of discoveredUsers
+  ) {
+    const discordUserId =
+      String(
+        discoveredUser
+          ?.discordUserId
+        ?? ""
+      ).trim();
+
+    if (!discordUserId) {
+      continue;
+    }
+
+
+    const selected =
+      discordUserId
+      === configuredDiscordUserId;
+
+
+    if (selected) {
+      configuredUserFound =
+        true;
+    }
+
+
+    const option = {
+      discordUserId,
+
+      displayName:
+        String(
+          discoveredUser
+            ?.displayName
+          ?? makeMappedIdLabel(
+            discordUserId
+          )
+        ),
+
+      selected
+    };
+
+
+    if (
+      discoveredUser.present
+    ) {
+      presentOptions.push(
+        option
+      );
+    } else {
+      previousOptions.push(
+        option
+      );
+    }
+  }
+
+
+  const missingCurrentOption =
+    configuredDiscordUserId
+    && !configuredUserFound
+      ? {
+          discordUserId:
+            configuredDiscordUserId,
+
+          displayName:
+            makeMappedIdLabel(
+              configuredDiscordUserId
+            ),
+
+          selected:
+            true
+        }
+      : null;
+
+
+  return {
+    configuredDiscordUserId,
+
+    noneSelected:
+      !configuredDiscordUserId,
+
+    presentOptions,
+    previousOptions,
+
+    hasPresentOptions:
+      presentOptions.length > 0,
+
+    hasPreviousOptions:
+      previousOptions.length > 0,
+
+    missingCurrentOption
+  };
+}
+
+// #endregion
+
+// #region Reactive User Configuration Application
+
+export class ReactiveUserConfigApp extends HandlebarsApplicationMixin(
+  ApplicationV2
+) {
+  // #region Application Configuration
+
+  static DEFAULT_OPTIONS = {
+    id: `${MODULE_ID}-user-config`,
+
+    tag: "form",
+
+    classes: [
+      MODULE_ID,
+      "max-headroom-user-config"
+    ],
+
+    position: {
+      width: 940,
+      height: 720
+    },
+
+    window: {
+      title: "FoundryVTT_Max_Headroom: Reactive Portrait Users",
+      icon: "fa-solid fa-users",
+      resizable: true
+    },
+
+    form: {
+      closeOnSubmit: false,
+      submitOnChange: false,
+
+      async handler(event, form) {
+        return this._saveUserConfigurations(
+          form
+        );
+      }
+    }
+  };
+
+  static PARTS = {
+    body: {
+      template:
+        `modules/${MODULE_ID}/templates/reactive-user-config.hbs`
+    }
+  };
+
+  // #endregion
+
+
+  // #region Render Permission
+
+  _canRender(options) {
+    const allowed =
+      super._canRender(options);
+
+    if (allowed === false) {
+      return false;
+    }
+
+    if (!game.user?.isGM) {
+      ui.notifications.warn(
+        "Only a GM may configure reactive portraits."
+      );
+
+      return false;
+    }
+  }
+
+  // #endregion
+
+
+  // #region Context Preparation
+
+async _prepareContext(options) {
+  const context =
+    await super._prepareContext(
+      options
+    );
+
+
+  const discoveredDiscordUsers =
+    discordUserDirectory.list();
+
+
+  const detectedDiscordCount =
+    discoveredDiscordUsers.filter(
+      (user) =>
+        user.present
+    ).length;
+
+
+  const knownDiscordCount =
+    discoveredDiscordUsers.length;
+
+
+  const users =
+    getAllReactivePortraitConfigs()
+      .map(
+        ({ user, config }) => ({
+          userId:
+            user.id,
+
+          name:
+            String(
+              user.name
+              ?? "Unnamed User"
+            ),
+
+          displayName: {
+            userName:
+              String(
+                user.name
+                ?? "Unnamed User"
+              ),
+
+            characterName:
+              String(
+                user.character?.name
+                ?? ""
+              ),
+
+            hasCharacter:
+              Boolean(
+                user.character
+              ),
+
+            userSelected:
+              config.displayNameMode
+                === "user",
+
+            characterSelected:
+              config.displayNameMode
+                === "character",
+
+            customSelected:
+              config.displayNameMode
+                === "custom"
+          },
+
+          config,
+
+          discordMapping:
+            buildDiscordMappingContext(
+              config,
+              discoveredDiscordUsers
+            )
+        })
+      )
+      .sort(
+        (a, b) => {
+          const orderDifference =
+            a.config.sortOrder
+            - b.config.sortOrder;
+
+          if (
+            orderDifference !== 0
+          ) {
+            return orderDifference;
+          }
+
+          return a.name.localeCompare(
+            b.name
+          );
+        }
+      );
+
+
+  return {
+    ...context,
+
+    users,
+
+    detectedDiscordCount,
+    knownDiscordCount,
+
+    hasDetectedDiscordUsers:
+      detectedDiscordCount > 0,
+
+    hasKnownDiscordUsers:
+      knownDiscordCount > 0
+  };
+}
+
+  // #endregion
+
+
+  // #region Application Actions
+
+  async _onClickAction(
+    event,
+    target
+  ) {
+      switch (target.dataset.action) {
+        case "browseImage":
+          return this._openImagePicker(
+            target
+          );
+
+        case "clearImage":
+          return this._clearImage(
+            target
+          );
+
+        case "refreshDiscordUsers":
+          return this.render({
+            force: true
+          });
+
+
+        default:
+          return super._onClickAction(
+            event,
+            target
+          );
+      }
+  }
+
+  // #endregion
+
+
+  // #region Image Picker
+
+  async _openImagePicker(button) {
+    const picker =
+      FilePicker.fromButton(button);
+
+    const input =
+      picker.field;
+
+    if (!input) {
+      console.error(
+        `[${MODULE_ID}] FilePicker could not resolve its target input.`,
+        button
+      );
+
+      return;
+    }
+
+    const userId =
+      button.dataset.userId;
+
+    const field =
+      button.dataset.field;
+
+    picker.callback = (path) => {
+      input.value =
+        String(path ?? "");
+
+      this._updateImagePreview(
+        userId,
+        field,
+        input.value
+      );
+    };
+
+    await picker.render({
+      force: true
+    });
+  }
+
+  _clearImage(button) {
+    const userId =
+      button.dataset.userId;
+
+    const field =
+      button.dataset.field;
+
+    if (
+      !userId
+      || !field
+    ) {
+      return;
+    }
+
+
+    const row =
+      button.closest(
+        '[data-role="user-config-row"]'
+      );
+
+    const input =
+      row?.querySelector(
+        `[data-field="${CSS.escape(field)}"]`
+      );
+
+    if (!input) {
+      console.error(
+        `[${MODULE_ID}] Unable to locate image input for "${field}".`
+      );
+
+      return;
+    }
+
+
+    input.value = "";
+
+    this._updateImagePreview(
+      userId,
+      field,
+      ""
+    );
+  }
+
+  _updateImagePreview(
+    userId,
+    field,
+    path
+  ) {
+    if (
+      !userId
+      || !field
+      || !this.element
+    ) {
+      return;
+    }
+
+    const row =
+      this.element.querySelector(
+        `[data-role="user-config-row"][data-user-id="${CSS.escape(userId)}"]`
+      );
+
+    if (!row) {
+      return;
+    }
+
+    const preview =
+      row.querySelector(
+        `[data-preview-field="${CSS.escape(field)}"]`
+      );
+
+    if (!preview) {
+      return;
+    }
+
+    preview.replaceChildren();
+
+    if (path) {
+      const image =
+        document.createElement("img");
+
+      image.src = path;
+      image.alt = "";
+      image.draggable = false;
+
+      preview.append(image);
+
+      preview.classList.remove(
+        "is-empty"
+      );
+
+      return;
+    }
+
+    const empty =
+      document.createElement("span");
+
+    const emptyText = {
+      idleImage:
+        "No image selected",
+
+      talkingImage:
+        "Falls back to idle",
+
+      mutedImage:
+        "Optional"
+    };
+
+    empty.textContent =
+      emptyText[field]
+      ?? "No image selected";
+
+    preview.append(empty);
+
+    preview.classList.add(
+      "is-empty"
+    );
+  }
+
+  // #endregion
+
+  // #region Form Reading
+
+  _readUserRow(row) {
+    const userId =
+      row.dataset.userId;
+
+    const read =
+      (field) =>
+        row.querySelector(
+          `[data-field="${field}"]`
+        );
+
+    const selectedDiscordUserId =
+      read("discordUserId")
+        ?.value
+        ?.trim()
+      ?? "";
+
+
+    const manualDiscordUserId =
+      read("manualDiscordUserId")
+        ?.value
+        ?.trim()
+      ?? "";
+
+    return {
+      userId,
+
+      config: {
+        discordUserId:
+          manualDiscordUserId
+          || selectedDiscordUserId,
+
+        displayNameMode:
+          read("displayNameMode")
+            ?.value
+            ?.trim()
+          ?? "user",
+
+        customDisplayName:
+          read("customDisplayName")
+            ?.value
+            ?.trim()
+          ?? "",
+
+        idleImage:
+          read("idleImage")
+            ?.value
+            ?.trim()
+          ?? "",
+
+        talkingImage:
+          read("talkingImage")
+            ?.value
+            ?.trim()
+          ?? "",
+
+        mutedImage:
+          read("mutedImage")
+            ?.value
+            ?.trim()
+          ?? "",
+
+        enabled:
+          Boolean(
+            read("enabled")
+              ?.checked
+          ),
+
+        sortOrder:
+          Number(
+            read("sortOrder")
+              ?.value
+            ?? 0
+          )
+      }
+    };
+  }
+
+  _readAllUserRows(form) {
+    const rows =
+      form.querySelectorAll(
+        '[data-role="user-config-row"]'
+      );
+
+    return Array.from(rows).map(
+      (row) =>
+        this._readUserRow(row)
+    );
+  }
+
+  // #endregion
+
+  // #region Configuration Validation
+
+  _validateConfigurations(
+    entries
+  ) {
+    const discordMappings =
+      new Map();
+
+    for (const entry of entries) {
+      const discordUserId =
+        String(
+          entry.config.discordUserId
+          ?? ""
+        ).trim();
+
+      if (!discordUserId) {
+        continue;
+      }
+
+      const existing =
+        discordMappings.get(
+          discordUserId
+        );
+
+      if (existing) {
+        const firstUser =
+          game.users.get(existing);
+
+        const secondUser =
+          game.users.get(
+            entry.userId
+          );
+
+        return {
+          valid: false,
+
+          message:
+            `Discord User ID ${discordUserId} is assigned to both `
+            + `"${firstUser?.name ?? existing}" and `
+            + `"${secondUser?.name ?? entry.userId}".`
+        };
+      }
+
+      discordMappings.set(
+        discordUserId,
+        entry.userId
+      );
+    }
+
+    return {
+      valid: true,
+      message: ""
+    };
+  }
+
+  // #endregion
+
+  // #region Configuration Save
+
+  async _saveUserConfigurations(
+    form
+  ) {
+    if (!game.user?.isGM) {
+      ui.notifications.error(
+        "Only a GM may modify reactive portrait configuration."
+      );
+
+      return false;
+    }
+
+    const entries =
+      this._readAllUserRows(form);
+
+    const validation =
+      this._validateConfigurations(
+        entries
+      );
+
+    if (!validation.valid) {
+      ui.notifications.error(
+        validation.message
+      );
+
+      return false;
+    }
+
+    try {
+      for (const entry of entries) {
+        const user =
+          game.users.get(
+            entry.userId
+          );
+
+        if (!user) {
+          console.warn(
+            `[${MODULE_ID}] User disappeared while saving configuration.`,
+            entry.userId
+          );
+
+          continue;
+        }
+
+        await setReactivePortraitConfig(
+          user,
+          entry.config
+        );
+      }
+
+      await portraitBar.refresh();
+
+      await this.render({
+        force: true
+      });
+
+      ui.notifications.info(
+        "Reactive portrait configuration saved."
+      );
+
+      return true;
+    } catch (error) {
+      console.error(
+        `[${MODULE_ID}] Failed to save reactive portrait configuration.`,
+        error
+      );
+
+      ui.notifications.error(
+        "Failed to save reactive portrait configuration. See the console for details."
+      );
+
+      return false;
+    }
+  }
+
+  // #endregion
+}
+
+// #endregion
+
+// #region Settings Menu Registration
+
+export function registerPortraitConfigMenu() {
+  game.settings.registerMenu(
+    MODULE_ID,
+    PORTRAIT_CONFIG_MENU_KEY,
+    {
+      name:
+        "Reactive Portrait Users",
+
+      label:
+        "Configure Reactive Portraits",
+
+      hint:
+        "Configure Discord mappings and reactive portrait images for Foundry users.",
+
+      icon:
+        "fa-solid fa-users-gear",
+
+      type:
+        ReactiveUserConfigApp,
+
+      restricted:
+        true
+    }
+  );
+}
+
+// #endregion
