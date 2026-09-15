@@ -1,17 +1,12 @@
-0.3.5
-- Documentation Updates
+# Changelog
 
-0.3.4
-- Documentation Updates
+## 1.0.0
 
-0.3.3
-- Collapsible Reactive Portrait configuration rows
-- Improved Browser Companion status guidance
+First stable public release of Max Headroom.
 
-0.3.2
-- Player / Player Character / Custom portrait names
-- Dynamic Player Character names
-- Clear image controls
-
-0.3.1
-- Relay Controller onboarding improvements
+- Reactive Discord voice portraits
+- Idle, talking, and muted portrait states
+- Automatic Discord user discovery
+- Foundry User and Player Character display names
+- Chromium companion extension integration
+- GM-hosted Discord StreamKit relay

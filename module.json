@@ -2,7 +2,7 @@
   "id": "foundryvtt-max-headroom",
   "title": "Max Headroom",
   "description": "Reactive Discord voice portraits for Foundry VTT, with speaking and mute states powered by Discord StreamKit.",
-  "version": "0.3.6",
+  "version": "1.0.0",
 
   "authors": [
     {
