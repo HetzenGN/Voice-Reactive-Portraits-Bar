@@ -1,27 +1,27 @@
 ## Reactive Discord Portraits
 
-Max Headroom displays Discord voice activity directly inside Foundry VTT,
-including multiple simultaneous speakers.
+Max Headroom displays Discord voice activity inside Foundry VTT,
+including multiple simultaneous speakers. I'd like to bring the joy of a fancy OBS overlay production to us average users with only a few .png's to our name!
 
 ![Foundry VTT Max Headroom reactive Discord portrait demonstration](docs/media/max_headroom_demo.gif)
 
 # Foundry VTT Max Headroom
 
-Foundry VTT Max Headroom displays reactive Discord voice portraits directly inside Foundry VTT. Portraits can change when a Discord user speaks or mutes, giving the table a visual indication of voice activity without requiring OBS inside Foundry.
+Max Headroom displays reactive Discord voice portraits directly inside Foundry VTT. Portraits can change when a Discord user speaks or mutes, giving the table a visual indication of voice activity without requiring OBS inside Foundry. The portrait can be animated .webp format images, or any of the usual image formats that Foundry accepts. 
 
-Foundry VTT Max Headroom is an independent community project and is not affiliated with or endorsed by Foundry Gaming LLC, Discord Inc., or Google.
+Max Headroom is my own spagetti and is not affiliated with or endorsed by Foundry Gaming LLC, Discord Inc., Google, or anybody important.
 
 ## Requirements
 
-Please note that Foundry VTT Max Headroom requires a couple additional steps of setup from the GM only in order to link Discord and Foundry communication. One component is the offical lightweight Discord Streamkit, though no actual streaming is involved. The other component is a small browser extension to allow the Discord Streamkit and Foundry to talk. This extension is small, simple, and verified by the Chrome Web Store. Please read on for more detailed setup.
+Please note that Max Headroom requires a couple additional steps of setup from the GM only in order to link Discord and Foundry communication. One component is the offical lightweight Discord Streamkit, though no actual streaming is involved. The other component is a small browser extension to allow the Discord Streamkit and Foundry to talk. This extension is small, simple, and verified by the Chrome Web Store. Please read on for more detailed setup.
 
 Max Headroom requires:
 
 - **Foundry VTT v14**
-- **The Chrome Web Store-validated Max Headroom Companion extension** in a Chromium-based browser
-- **Discord StreamKit**
+- **The Chrome Web Store-validated Max Headroom Companion extension** in a Chromium-based browser like... Chrome.
+- **Discord StreamKit** : a free non-installed web browser overlay for Discord
 
-Only the GM acting as the **Relay Host** needs the companion extension and StreamKit. Other Foundry users receive portrait state through Foundry and do not need to install the extension.
+Only the GM acting as the **Relay Host** needs the companion extension and StreamKit. Other Foundry users receive portrait state through Foundry and do not need to install the extension or anything else.
 
 ---
 
@@ -31,24 +31,25 @@ Do this before configuring Foundry. Only the GM will need to do this.
 
 1. Open the Discord desktop application and sign in to the account you will use for the game.
 2. Go to **https://streamkit.discord.com/overlay**.
-3. Click **Install for OBS**. You do not need OBS; this is Discord's normal StreamKit authorization path.
+3. Click **Install for OBS**. You do not need OBS; this is Discord's normal StreamKit authorization path. Despite Discord's choice of words, this is not an application install.
 4. When Discord asks for permission, **accept/authorize StreamKit Overlay**.
-5. Switch to the **Voice Widget**.
-6. Select the Discord server and **voice channel** used by your group.
-7. Copy the **Voice Widget** overlay URL for later use in Foundry. You may open the **Voice Widget** URL in another tab now, or safe that for later.
-8. You are free to close the Discord Overlay splash page that had the **Voice Widget** tab, but the final tab provided by the URL must remain open.
+5. Switch to the **Voice Widget** tab.
+6. Select the Discord server and **voice channel** used by your group. This can be changed later.
+7. Copy the **Voice Widget** overlay URL for later use in Foundry.
 
 Verify the authorization in:
 
-**Discord → User Settings → Connected Apps → Authorized Apps**
+**Discord -> User Settings -> Connected Apps -> Authorized Apps**
 
-You should see **Streamkit Overlay**.
+You should see **Streamkit Overlay** down near the bottom. If you do not, you may have denied overlay's permissions and should try again.
 
 Once authorization is complete, Max Headroom uses the configured **Voice Widget** overlay, opened via URL, during play.
 
 ---
 
 # 2. Install the Foundry Module
+
+This is needed if not found and installed via the Foundry VTT module browser, which I am applying for.
 
 Repository:
 
@@ -60,19 +61,19 @@ Manifest URL:
 
 In Foundry:
 
-1. Open **Setup → Add-on Modules → Install Module**.
+1. Open **Setup -> Add-on Modules -> Install Module**.
 2. Paste the manifest URL above.
 3. Install the module.
 4. Launch your world.
-5. Enable **Max Headroom** for that world.
+5. Enable **Max Headroom** in Module Management.
 
-Max Headroom targets **Foundry VTT v14 only**.
+Max Headroom is for **Foundry VTT v14 only**. I plan on keeping this updated for future Foundry releases.
 
 ---
 
 # 3. Install the Browser Companion
 
-The GM who will act as Relay Host must install the Max Headroom Companion extension. Only the GM will need to do this.
+Only the GM, who will act as Relay Host, must install the Max Headroom Companion extension. If you have a Co-GM, who will need Foundry GM permissions, whoever takes the "Relay Host" chair must have the extension installed and paired.
 
 Chrome Web Store:
 
@@ -81,9 +82,9 @@ Chrome Web Store:
 After installing it:
 
 1. Open your Foundry world in the same Chromium-based browser.
-2. Open the Max Headroom Companion extension popup.
-3. Click **Pair Current Foundry Tab**.
-4. Confirm the popup identifies the paired Foundry world and user.
+2. Open the Max Headroom Companion extension popup. This should be in a small "Extension" clickable in the top right.
+3. Click **Pair Current Foundry Tab** while on the game tab.
+4. Confirm the popup identifies the paired Foundry world and user. Not everything will go green until the Streamkit is open as well.
 
 If you later move to another Foundry tab, use **Re-pair Current Foundry Tab**. **Forget Pairing** clears the current session pairing.
 
@@ -91,11 +92,11 @@ If you later move to another Foundry tab, use **Re-pair Current Foundry Tab**. *
 
 # 4. Configure the StreamKit URL
 
-Open **Configure Settings → Module Settings** in Foundry and find the Max Headroom settings. Only the GM will need to do this, though Users have some freedom to configure size and position.
+Open **Configure Settings -> Module Settings** in Foundry and find the Max Headroom settings. Only the GM will need to do this.
 
-Set **StreamKit Relay URL** to the Discord **Voice Widget** URL copied earlier. This URL identifies the Discord server and voice channel used by your group.
+Set **StreamKit Relay URL** box to the Discord **Voice Widget** URL you copied earlier. This should not be simply "https://streamkit.discord.com/overlay", but be longer with specifics. This URL identifies the Discord server and voice channel used by your group.
 
-The Relay Controller's **Open StreamKit** button launches this configured URL.
+The Relay Controller's **Open StreamKit** button launches this pasted URL.
 
 You can also adjust portrait presentation settings such as:
 
@@ -106,7 +107,7 @@ You can also adjust portrait presentation settings such as:
 - Speech Decay
 - Speaking Animation
 
-The defaults are suitable for initial testing.
+The defaults should work for most. These GM bar size/position settings will appear as the default for players until they further customize them.
 
 ---
 
@@ -121,7 +122,7 @@ Open the **Max Headroom Relay Controller** in Foundry. Its Setup section tracks 
 
 ## Claim Relay Host
 
-Click **Claim Relay Host**. Only one connected GM should own relay authority at a time. That GM receives companion activity and distributes the authoritative portrait state to other Foundry clients.
+Click **Claim Relay Host**. Only one connected GM should own relay authority at a time. That GM will use their companion extension and Streamkit overlay window to pass activity to your player's clients.
 
 ## Open StreamKit
 
@@ -129,11 +130,11 @@ Make sure the companion is paired, then:
 
 1. Join the intended Discord voice channel.
 2. Click **Open StreamKit** in the Relay Controller.
-3. Leave the StreamKit Voice overlay open while playing.
+3. Leave the StreamKit Voice overlay open while playing. You can minimize this but it must stay open.
 
-The **Browser Companion** setup indicator does not turn green merely because the extension is installed. It turns green after Discord StreamKit is open and companion relay activity actually reaches Foundry.
+The **Browser Companion** setup indicator does not turn green when the extension is first installed but will turn green once there is talking between Discord, the extension, and Foundry.
 
-Once traffic is flowing, the Relay Controller should begin showing detected Discord users and recent relay activity.
+Once traffic is flowing, the Relay Controller should begin showing detected Discord users voice activity.
 
 ---
 
@@ -145,21 +146,23 @@ Foundry Users appear in collapsible rows. Each row shows the Foundry User and an
 
 ## Enable and Map a User
 
-Check **Enabled** for each Foundry User who should appear in the portrait bar. Disabled users do not count against setup completeness.
+Check **Enabled** for each Foundry User who should appear in the portrait bar.
 
-Open the **Discord User** dropdown. With StreamKit authorized and running, users currently detected in voice should appear under **Detected in Voice**. Select the Discord account belonging to that Foundry User.
+Open the **Discord User** dropdown. With StreamKit authorized and running, users currently detected in voice should appear under **Detected in Voice**. Select the Discord account belonging to that Foundry User. Having these names passed over is a lot more convenient then manually trying to populate them; I'd suggest testing by mapping the GM, but save the Foundry User -> Discord mapping for the final step once you do have your players in voice.
 
-A **Manual Discord ID** field remains available as an advanced fallback, but normal setup should not require it.
+A manual **Discord ID** field is available if you do need/want to preconfigure it. Discord users can click their own profile and "Copy Discord ID" in their own Discord app, then send it to you.
 
 ## Choose the Portrait Name
 
 Each user can display:
 
-- **Player** — the Foundry User name
+- **Player** — the Foundry User name like in User Configuration
 - **Player Character** — the character currently assigned in Foundry User Configuration
 - **Custom** — text entered in Custom Name
 
-When **Player Character** is selected, changing that user's assigned Foundry character automatically changes the portrait name.
+When **Player Character** is selected, changing that user's assigned Foundry character should change the portrait name. 
+
+Names that end up being too long will be truncated, but you may want to use a shorted Custom name instead.
 
 ## Choose Reactive Images
 
@@ -169,11 +172,11 @@ Each enabled user can have:
 - **Talking Image**
 - **Muted Image**
 
-These are independent from Actor portraits, Tokens, character artwork, and Foundry User avatars.
+These are independent from Actor portraits, Tokens, character artwork, Foundry User avatars, and anything else.
 
 For animated portraits that activate a speaking loop the animations must be in .webp format only. For reactive, but static images, any of the normal Foundry image formats should work.
 
-Use the folder button to select artwork. Use the clear button to remove an image and return that field to its default behavior. Talking can fall back to Idle when no separate Talking image is configured; Muted is optional.
+Use the folder button to select artwork. Neither Talking or Muted must be set, but the image will stay as Idle.
 
 Use **Sort Order** to control portrait order, then click **Save Configuration**.
 
@@ -183,17 +186,17 @@ Use **Sort Order** to control portrait order, then click **Save Configuration**.
 
 A basic test sequence:
 
-1. Confirm this GM is the Relay Host.
-2. Confirm the Browser Companion is connected.
-3. Confirm StreamKit is open.
+1. Confirm you (GM) are the Relay Host.
+2. Confirm the Browser Companion is connected and paired to the correct tab.
+3. Confirm StreamKit is open. This should be the overlap browser tab and not the Streamkit config panel that had Voice Widget.
 4. Join the configured Discord voice channel.
 5. Confirm Discord users appear in Configure Reactive Portraits.
 6. Speak and verify the mapped portrait changes to Talking.
-7. Stop speaking and verify it returns to Idle after speech decay.
-8. Mute and verify the Muted state.
+7. Stop speaking and verify it returns to Idle. (after speech decay)
+8. Mute and verify the Muted state works and image is shown.
 9. Test two users speaking at the same time.
 
-Other Foundry users should see the same portrait activity without running their own StreamKit overlay or companion extension.
+Other Foundry users should see the same portrait activity. They won't need the extension or Streamkit, so it stays easy for them.
 
 ---
 
@@ -201,23 +204,23 @@ Other Foundry users should see the same portrait activity without running their 
 
 ## Browser Companion does not turn green
 
-Check that the extension is installed, the current Foundry tab is paired, this GM is Relay Host, and StreamKit is open. Installing the extension alone is not enough; Foundry must receive StreamKit relay activity.
+Check that the extension is installed, the current Foundry tab is paired, you the GM are the Relay Host, and StreamKit is open. Installing the extension alone is not enough; Foundry must receive StreamKit relay activity.
 
 ## Speaking works, but Discord names do not appear
 
 Check:
 
-**Discord → User Settings → Connected Apps → Authorized Apps**
+**Discord -> User Settings -> Connected Apps -> Authorized Apps**
 
 Make sure **Streamkit Overlay** is present. If it is missing:
 
 1. Return to **https://streamkit.discord.com/overlay**.
 2. Click **Install for OBS**.
-3. Accept the authorization prompt.
+3. Accept the authorization/permission prompt. 
 4. Reopen the configured StreamKit overlay.
 5. In **Configure Reactive Portraits**, click **Refresh Discord List**.
 
-Manual ID mapping can still work when friendly-name discovery is unavailable, so speaking alone does not prove StreamKit authorization is complete.
+If the portraits work after manually setting a Discord ID, but you do not see player names in the dropdown, then it is certainly Streamkit Overlay permissions.
 
 ## No Discord users are detected
 
@@ -225,7 +228,7 @@ Confirm the Relay Host is in the voice channel selected for the StreamKit Voice 
 
 ## Another GM owns the relay
 
-Only one GM should be Relay Host. Continue using that GM or have them release the host before another GM claims it.
+Only one GM can be Relay Host. Continue using that GM or have them switch the claim.
 
 ## A portrait does not appear
 
@@ -235,9 +238,9 @@ Confirm the Foundry User is **Enabled**, mapped to the correct Discord user, has
 
 # Privacy
 
-Max Headroom does **not** record Discord voice audio and does not read Discord text-message contents. It uses the information needed for reactive portraits, such as Discord user IDs, usernames or server nicknames, voice-channel presence, speaking state, mute state, and relay health.
+Max Headroom does **not** record Discord voice audio and does not read Discord text-message contents. It uses the information needed for reactive portraits, such as Discord user IDs, usernames or server nicknames, voice-channel presence, speaking state, mute state, and relay health. Feel free to open up the Console on the Streamkit Overlay tab and you can poke around the relay packets.
 
-Persistent portrait mappings remain in the Foundry world.
+User mappings are persistent for Foundry for each of configuring between player parties.
 
 ---
 
@@ -258,4 +261,4 @@ Persistent portrait mappings remain in the Foundry world.
 - [ ] Reactive images are configured
 - [ ] Speaking and mute behavior tested
 
-Once setup is complete, normal use is simple: keep the Relay Host's Foundry tab, paired companion, Discord desktop client, and StreamKit Voice overlay running. Reactive portraits will update automatically during play.
+Once setup is complete, normal use is much simpler: keep the Relay Host's Foundry tab, paired companion, Discord desktop client, and StreamKit Voice overlay running. Reactive portraits will update automatically during play for all your players.
