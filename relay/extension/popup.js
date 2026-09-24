@@ -252,7 +252,7 @@ function renderFoundry(
         activeFoundry
           ? (
               activeFoundry.worldTitle
-              || "Max Headroom detected in this tab."
+              || "Voice Reactive Portraits Bar detected in this tab."
             )
           : "Open your Foundry world, then use this popup from that tab.";
 
@@ -372,7 +372,7 @@ function renderStreamKit(
 
   elements.streamKitDetails
     .textContent =
-      "Open StreamKit from the Max Headroom Relay Controller.";
+      "Open StreamKit from the Voice Reactive Portraits Bar Relay Controller.";
 }
 
 
@@ -450,7 +450,7 @@ async function pairCurrentTab() {
 
     if (!result?.ok) {
       throw new Error(
-        "This tab is not a ready Max Headroom Foundry world."
+        "This tab does not have Voice Reactive Portraits Bar ready."
       );
     }
 

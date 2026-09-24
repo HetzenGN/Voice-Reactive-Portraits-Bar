@@ -2,8 +2,11 @@
 
 // #region Constants
 
-const MODULE_ID =
-  "foundryvtt-max-headroom";
+const MODULE_IDS =
+  Object.freeze([
+    "voice-reactive-portraits-bar",
+    "foundryvtt-max-headroom"
+  ]);
 
 const STREAMKIT_MESSAGE_TYPE =
   "MAX_HEADROOM_STREAMKIT_SPEAKING";
@@ -21,7 +24,7 @@ const STREAMKIT_PATH_PREFIX =
   "/overlay/voice/";
 
 const LOG_PREFIX =
-  "[Max Headroom extension]";
+  "[Voice Reactive Portraits Bar Companion]";
 
 const STREAMKIT_HEALTH_MESSAGE_TYPE =
   "MAX_HEADROOM_STREAMKIT_HEALTH";
@@ -297,14 +300,39 @@ async function inspectFoundryTab(
           "MAIN",
 
         func:
-          (moduleId) => {
-            const module =
-              globalThis.game
-                ?.modules
-                ?.get(
-                  moduleId
+          (moduleIds) => {
+            const modules =
+              moduleIds
+                .map(
+                  (moduleId) =>
+                    globalThis.game
+                      ?.modules
+                      ?.get(moduleId)
+                )
+                .filter(Boolean);
+
+            const isReady =
+              (module) =>
+                Boolean(
+                  module?.active
+                  && typeof module
+                    ?.api
+                    ?.receiveExtensionSpeakingEvent
+                    === "function"
+                  && typeof module
+                    ?.api
+                    ?.receiveExtensionDiscordUserEvent
+                    === "function"
+                  && typeof module
+                    ?.api
+                    ?.receiveExtensionRelayHealth
+                    === "function"
                 );
 
+            const module =
+              modules.find(isReady)
+              ?? modules[0]
+              ?? null;
 
             return {
               foundryAvailable:
@@ -338,6 +366,13 @@ async function inspectFoundryTab(
                   ?.receiveExtensionRelayHealth
                   === "function",
 
+              moduleId:
+                String(
+                  module?.id
+                  ?? module?.manifest?.id
+                  ?? ""
+                ),
+
               moduleVersion:
                 String(
                   module?.version
@@ -367,10 +402,9 @@ async function inspectFoundryTab(
           },
 
         args: [
-          MODULE_ID
+          MODULE_IDS
         ]
       });
-
 
   return (
     results?.[0]?.result
@@ -451,7 +485,7 @@ async function pairFoundryTab(
   ) {
     console.warn(
       LOG_PREFIX,
-      "The active tab is not a ready FoundryVTT Max Headroom game.",
+      "The active tab does not have Voice Reactive Portraits Bar ready.",
       inspection
     );
 
@@ -479,6 +513,9 @@ async function pairFoundryTab(
 
     userName:
       inspection.userName,
+
+    moduleId:
+      inspection.moduleId,
 
     moduleVersion:
       inspection.moduleVersion,
@@ -678,23 +715,31 @@ async function deliverToFoundry(
 
         func:
           (
-            moduleId,
+            moduleIds,
             requestedMethod,
             deliveredPayload
           ) => {
             const module =
-              globalThis.game
-                ?.modules
-                ?.get(
-                  moduleId
+              moduleIds
+                .map(
+                  (moduleId) =>
+                    globalThis.game
+                      ?.modules
+                      ?.get(moduleId)
+                )
+                .find(
+                  (candidate) =>
+                    candidate?.active
+                    && typeof candidate
+                      ?.api
+                      ?.[requestedMethod]
+                      === "function"
                 );
-
 
             const receive =
               module
                 ?.api
                 ?.[requestedMethod];
-
 
             if (
               typeof receive
@@ -710,7 +755,6 @@ async function deliverToFoundry(
                   requestedMethod
               };
             }
-
 
             try {
               return (
@@ -739,12 +783,11 @@ async function deliverToFoundry(
           },
 
         args: [
-          MODULE_ID,
+          MODULE_IDS,
           methodName,
           payload
         ]
       });
-
 
   return (
     results?.[0]?.result

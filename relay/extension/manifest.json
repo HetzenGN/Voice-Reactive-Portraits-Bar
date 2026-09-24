@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "FoundryVTT Max Headroom Relay",
-  "version": "0.3.0",
-  "description": "Relays Discord StreamKit voice activity, user discovery, and connection health to Foundry VTT.",
+  "name": "Voice Reactive Portraits Bar Companion",
+  "version": "0.3.1",
+  "description": "Relays Discord StreamKit voice activity, user discovery, and connection health to Voice Reactive Portraits Bar.",
   "minimum_chrome_version": "111",
 
   "permissions": [
@@ -16,7 +16,7 @@
     "type": "module"
   },
 
-  "homepage_url": "https://github.com/HetzenGN/FoundryVTT_Max_Headroom",
+  "homepage_url": "https://github.com/HetzenGN/Foundry-VTT-Max-Headroom",
 
   "icons": {
     "16": "icons/icon16.png",
@@ -25,7 +25,7 @@
   },
 
   "action": {
-    "default_title": "Max Headroom Relay",
+    "default_title": "Voice Reactive Portraits Bar Companion",
     "default_popup": "popup.html",
     "default_icon": {
       "16": "icons/icon16.png",
