@@ -10,7 +10,7 @@ Older versions may not receive security updates.
 
 Please do not publicly disclose a suspected security vulnerability before it can be reviewed.
 
-If you believe you have found a security issue involving Max Headroom, the Chromium companion extension, Discord StreamKit integration, or Foundry VTT communication, please report it privately to the project maintainer through GitHub.
+If you believe you have found a security issue involving Voice Reactive Portraits Bar, the Chromium companion extension, Discord StreamKit integration, or Foundry VTT communication, please report it privately to the project maintainer through GitHub.
 
 When reporting an issue, please include:
 
