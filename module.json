@@ -1,6 +1,6 @@
 {
-  "id": "foundryvtt-max-headroom",
-  "title": "Max Headroom",
+  "id": "voice-reactive-portraits-bar",
+  "title": "Voice Reactive Portraits Bar",
   "description": "Reactive Discord voice portraits for Foundry VTT, with speaking and mute states powered by Discord StreamKit.",
   "version": "1.0.0",
 
@@ -26,7 +26,7 @@
 
   "socket": true,
 
-  "url": "https://github.com/HetzenGN/Foundry-VTT-Max-Headroom",
-  "manifest": "https://github.com/HetzenGN/Foundry-VTT-Max-Headroom/releases/latest/download/module.json",
-  "download": "https://github.com/HetzenGN/Foundry-VTT-Max-Headroom/releases/latest/download/foundryvtt-max-headroom.zip"
+  "url": "https://github.com/HetzenGN/Voice-Reactive-Portraits-Bar",
+  "manifest": "https://github.com/HetzenGN/Voice-Reactive-Portraits-Bar/releases/latest/download/module.json",
+  "download": "https://github.com/HetzenGN/Voice-Reactive-Portraits-Bar/releases/latest/download/voice-reactive-portraits-bar.zip"
 }

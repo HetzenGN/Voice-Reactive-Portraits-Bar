@@ -7,6 +7,6 @@ export const COMPANION_EXTENSION_STORE_URL =
 
 
 export const DOCUMENTATION_URL =
-  "https://github.com/HetzenGN/Foundry-VTT-Max-Headroom";
+  "https://github.com/HetzenGN/Voice-Reactive-Portraits-Bar";
 
 // #endregion

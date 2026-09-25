@@ -271,7 +271,7 @@ game.settings.register(
         "Discord StreamKit Voice URL",
 
       hint:
-        "Discord StreamKit Voice overlay URL opened by the Relay Controller. The Max Headroom Chromium extension observes this page and relays Discord voice activity into Foundry.",
+        "Discord StreamKit Voice overlay URL opened by the Relay Controller. The Voice Reactive Portraits Bar Companion extension observes this page and relays Discord voice activity into Foundry.",
       scope: "world",
       config: true,
       type: String,

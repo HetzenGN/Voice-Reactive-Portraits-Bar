@@ -49,11 +49,11 @@ import {
 
 // #region Constants
 
-const LOG_PREFIX = "[FoundryVTT_Max_Headroom]";
+const LOG_PREFIX = "[VoiceReactivePortraitsBar]";
 
 const WELCOME_MESSAGE = `
   <p>
-    <strong>Welcome to Foundry VTT Max Headroom!</strong>
+    <strong>Welcome to Voice Reactive Portraits Bar!</strong>
   </p>
 
   <p>
@@ -64,11 +64,11 @@ const WELCOME_MESSAGE = `
   <p>
     Please visit
     <a
-      href="https://github.com/HetzenGN/Foundry-VTT-Max-Headroom"
+      href="https://github.com/HetzenGN/Voice-Reactive-Portraits-Bar"
       target="_blank"
       rel="noopener noreferrer"
     >
-      Foundry VTT Max Headroom on GitHub
+      Voice Reactive Portraits Bar on GitHub
     </a>
     for the setup tutorial, feedback, or discussion.
   </p>
@@ -76,7 +76,7 @@ const WELCOME_MESSAGE = `
   <p>
     I'd love to see your art in action! Feel free to send screenshots
     to me on Discord at <strong>.hetzen</strong>. Please mention
-    <strong>Max Headroom</strong> in your message.
+    <strong>Voice Reactive Portraits Bar</strong> in your message.
   </p>
 `;
 
@@ -95,7 +95,7 @@ async function postWelcomeMessage() {
 
     speaker:
       ChatMessage.getSpeaker({
-        alias: "Max Headroom"
+        alias: "Voice Reactive Portraits Bar"
       }),
 
     style:

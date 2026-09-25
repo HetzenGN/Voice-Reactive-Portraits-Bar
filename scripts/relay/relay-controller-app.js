@@ -209,7 +209,7 @@ export class RelayControllerApp extends HandlebarsApplicationMixin(
 
     window: {
       title:
-        "FoundryVTT_Max_Headroom: Discord Relay",
+        "Voice Reactive Portraits Bar: Discord Relay",
 
       icon:
         "fa-brands fa-discord",

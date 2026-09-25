@@ -3,7 +3,7 @@
 // #region Core Identity
 
 export const MODULE_ID =
-  "foundryvtt-max-headroom";
+  "voice-reactive-portraits-bar";
 
 export const PROTOCOL_VERSION =
   1;
