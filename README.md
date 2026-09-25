@@ -1,24 +1,24 @@
 ## Reactive Discord Portraits
 
-Max Headroom displays Discord voice activity inside Foundry VTT,
+Voice Reactive Portraits Bar displays Discord voice activity inside Foundry VTT,
 including multiple simultaneous speakers. I'd like to bring the joy of a fancy OBS overlay production to us average users with only a few .png's to our name!
 
-![Foundry VTT Max Headroom reactive Discord portrait demonstration](docs/media/max_headroom_demo.gif)
+![Voice Reactive Portraits Bar reactive Discord portrait demonstration](docs/media/voice_reactive_portraits_bar_demo.gif)
 
-# Foundry VTT Max Headroom
+# Voice Reactive Portraits Bar
 
-Max Headroom displays reactive Discord voice portraits directly inside Foundry VTT. Portraits can change when a Discord user speaks or mutes, giving the table a visual indication of voice activity without requiring OBS inside Foundry. The portrait can be animated .webp format images, or any of the usual image formats that Foundry accepts. 
+Voice Reactive Portraits Bar displays reactive Discord voice portraits directly inside Foundry VTT. Portraits can change when a Discord user speaks or mutes, giving the table a visual indication of voice activity without requiring OBS inside Foundry. The portrait can be animated .webp format images, or any of the usual image formats that Foundry accepts. 
 
-Max Headroom is my own spagetti and is not affiliated with or endorsed by Foundry Gaming LLC, Discord Inc., Google, or anybody important.
+Voice Reactive Portraits Bar is my own spagetti and is not affiliated with or endorsed by Foundry Gaming LLC, Discord Inc., Google, or anybody important.
 
 ## Requirements
 
-Please note that Max Headroom requires a couple additional steps of setup from the GM only in order to link Discord and Foundry communication. One component is the offical lightweight Discord Streamkit, though no actual streaming is involved. The other component is a small browser extension to allow the Discord Streamkit and Foundry to talk. This extension is small, simple, and verified by the Chrome Web Store. Please read on for more detailed setup.
+Please note that Voice Reactive Portraits Bar requires a couple additional steps of setup from the GM only in order to link Discord and Foundry communication. One component is the offical lightweight Discord Streamkit, though no actual streaming is involved. The other component is a small browser extension to allow the Discord Streamkit and Foundry to talk. This extension is small, simple, and verified by the Chrome Web Store. Please read on for more detailed setup.
 
-Max Headroom requires:
+Voice Reactive Portraits Bar requires:
 
 - **Foundry VTT v14**
-- **The Chrome Web Store-validated Max Headroom Companion extension** in a Chromium-based browser like... Chrome.
+- **The Chrome Web Store-validated Voice Reactive Portraits Bar Companion extension** in a Chromium-based browser like... Chrome.
 - **Discord StreamKit** : a free non-installed web browser overlay for Discord
 
 Only the GM acting as the **Relay Host** needs the companion extension and StreamKit. Other Foundry users receive portrait state through Foundry and do not need to install the extension or anything else.
@@ -43,7 +43,7 @@ Verify the authorization in:
 
 You should see **Streamkit Overlay** down near the bottom. If you do not, you may have denied overlay's permissions and should try again.
 
-Once authorization is complete, Max Headroom uses the configured **Voice Widget** overlay, opened via URL, during play.
+Once authorization is complete, Voice Reactive Portraits Bar uses the configured **Voice Widget** overlay, opened via URL, during play.
 
 ---
 
@@ -53,11 +53,11 @@ This is needed if not found and installed via the Foundry VTT module browser, wh
 
 Repository:
 
-**https://github.com/HetzenGN/Foundry-VTT-Max-Headroom**
+**https://github.com/HetzenGN/Voice-Reactive-Portraits-Bar**
 
 Manifest URL:
 
-**https://github.com/HetzenGN/Foundry-VTT-Max-Headroom/releases/latest/download/module.json**
+**https://github.com/HetzenGN/Voice-Reactive-Portraits-Bar/releases/latest/download/module.json**
 
 In Foundry:
 
@@ -65,15 +65,15 @@ In Foundry:
 2. Paste the manifest URL above.
 3. Install the module.
 4. Launch your world.
-5. Enable **Max Headroom** in Module Management.
+5. Enable **Voice Reactive Portraits Bar** in Module Management.
 
-Max Headroom is for **Foundry VTT v14 only**. I plan on keeping this updated for future Foundry releases.
+Voice Reactive Portraits Bar is for **Foundry VTT v14 only**. I plan on keeping this updated for future Foundry releases.
 
 ---
 
 # 3. Install the Browser Companion
 
-Only the GM, who will act as Relay Host, must install the Max Headroom Companion extension. If you have a Co-GM, who will need Foundry GM permissions, whoever takes the "Relay Host" chair must have the extension installed and paired.
+Only the GM, who will act as Relay Host, must install the Voice Reactive Portraits Bar Companion extension. If you have a Co-GM, who will need Foundry GM permissions, whoever takes the "Relay Host" chair must have the extension installed and paired.
 
 Chrome Web Store:
 
@@ -82,7 +82,7 @@ Chrome Web Store:
 After installing it:
 
 1. Open your Foundry world in the same Chromium-based browser.
-2. Open the Max Headroom Companion extension popup. This should be in a small "Extension" clickable in the top right.
+2. Open the Voice Reactive Portraits Bar Companion extension popup. This should be in a small "Extension" clickable in the top right.
 3. Click **Pair Current Foundry Tab** while on the game tab.
 4. Confirm the popup identifies the paired Foundry world and user. Not everything will go green until the Streamkit is open as well.
 
@@ -92,9 +92,9 @@ If you later move to another Foundry tab, use **Re-pair Current Foundry Tab**. *
 
 # 4. Configure the StreamKit URL
 
-Open **Configure Settings -> Module Settings** in Foundry and find the Max Headroom settings. Only the GM will need to do this.
+Open **Configure Settings -> Module Settings** in Foundry and find the Voice Reactive Portraits Bar settings. Only the GM will need to do this.
 
-Set **StreamKit Relay URL** box to the Discord **Voice Widget** URL you copied earlier. This should not be simply "https://streamkit.discord.com/overlay", but be longer with specifics. This URL identifies the Discord server and voice channel used by your group.
+Set **StreamKit Relay URL** box to the Discord **Voice Widget** URL you copied earlier in step 1.7. This should not be simply "https://streamkit.discord.com/overlay", but be a very long string that you can copy paste. This URL identifies the Discord server and voice channel used by your group.
 
 The Relay Controller's **Open StreamKit** button launches this pasted URL.
 
@@ -113,7 +113,7 @@ The defaults should work for most. These GM bar size/position settings will appe
 
 # 5. Start the Discord Relay
 
-Open the **Max Headroom Relay Controller** in Foundry. Its Setup section tracks four items:
+Open the **Voice Reactive Portraits Bar Relay Controller** in Foundry. Its Setup section tracks four items:
 
 - **Relay Host**
 - **Browser Companion**
@@ -238,7 +238,7 @@ Confirm the Foundry User is **Enabled**, mapped to the correct Discord user, has
 
 # Privacy
 
-Max Headroom does **not** record Discord voice audio and does not read Discord text-message contents. It uses the information needed for reactive portraits, such as Discord user IDs, usernames or server nicknames, voice-channel presence, speaking state, mute state, and relay health. Feel free to open up the Console on the Streamkit Overlay tab and you can poke around the relay packets.
+Voice Reactive Portraits Bar does **not** record Discord voice audio and does not read Discord text-message contents. It uses the information needed for reactive portraits, such as Discord user IDs, usernames or server nicknames, voice-channel presence, speaking state, mute state, and relay health. Feel free to open up the Console on the Streamkit Overlay tab and you can poke around the relay packets.
 
 User mappings are persistent for Foundry for each of configuring between player parties.
 
@@ -250,8 +250,8 @@ User mappings are persistent for Foundry for each of configuring between player 
 - [ ] StreamKit Overlay authorized through **Install for OBS**
 - [ ] **Streamkit Overlay** appears under Discord Authorized Apps
 - [ ] Voice Widget configured for the correct server/channel
-- [ ] Foundry VTT Max Headroom installed and enabled
-- [ ] Max Headroom Companion installed from the Chrome Web Store
+- [ ] Foundry VTT module Voice Reactive Portraits Bar is installed and enabled
+- [ ] Voice Reactive Portraits Bar Companion installed from the Chrome Web Store
 - [ ] Current Foundry tab paired
 - [ ] StreamKit Relay URL set to the Voice Widget URL
 - [ ] GM has claimed Relay Host

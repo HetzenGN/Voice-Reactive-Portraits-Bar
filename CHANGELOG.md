@@ -2,7 +2,7 @@
 
 ## 1.0.0
 
-First stable public release of Max Headroom.
+First stable public release of Voice Reactive Portraits Bar.
 
 - Reactive Discord voice portraits
 - Idle, talking, and muted portrait states

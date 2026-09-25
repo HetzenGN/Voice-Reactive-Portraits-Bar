@@ -2,7 +2,7 @@
 
 ## Supported Versions
 
-Security fixes are generally applied to the latest published version of Max Headroom.
+Security fixes are generally applied to the latest published version of Voice Reactive Portraits Bar.
 
 Older versions may not receive security updates.
 
@@ -36,7 +36,7 @@ Security reports are especially useful for issues involving:
 
 ## Third-Party Services
 
-Max Headroom depends on external platforms including Foundry VTT, Discord StreamKit, and Chromium-based browsers.
+Voice Reactive Portraits Bar depends on external platforms including Foundry VTT, Discord StreamKit, and Chromium-based browsers.
 
 Security issues that originate entirely within those platforms should generally be reported to the appropriate vendor.
 

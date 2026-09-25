@@ -10,7 +10,7 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 ## Foundry Virtual Tabletop
 
-Max Headroom is an independent community module for Foundry Virtual Tabletop.
+Voice Reactive Portraits Bar is an independent community module for Foundry Virtual Tabletop.
 
 Use of Foundry Virtual Tabletop and development of modules for Foundry VTT remain subject to the applicable Foundry Virtual Tabletop license agreements and terms.
 
@@ -18,7 +18,7 @@ This project is not affiliated with or endorsed by Foundry Gaming LLC.
 
 ## Third-Party Services
 
-Max Headroom integrates with Discord StreamKit and is distributed with a companion extension for Chromium-based browsers.
+Voice Reactive Portraits Bar integrates with Discord StreamKit and is distributed with a companion extension for Chromium-based browsers.
 
 Discord, Discord StreamKit, Google Chrome, Chromium, and Foundry Virtual Tabletop are trademarks or services of their respective owners.
 

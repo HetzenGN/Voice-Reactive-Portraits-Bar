@@ -1,10 +1,10 @@
-# Foundry VTT Max Headroom Relay Privacy Policy
+# Voice Reactive Portraits Bar Companion Privacy Policy
 
 Last updated: August 31, 2026
 
 ## Overview
 
-Foundry VTT Max Headroom Relay is a browser companion extension for the Foundry VTT Max Headroom module. Its sole purpose is to relay limited Discord StreamKit voice-state information from Discord StreamKit to a Foundry Virtual Tabletop game explicitly selected by the user.
+Voice Reactive Portraits Bar Companion is a browser companion extension for the Voice Reactive Portraits Bar Companion module for Foundry VTT. Its sole purpose is to relay limited Discord StreamKit voice-state information from Discord StreamKit to a Foundry Virtual Tabletop game explicitly selected by the user.
 
 The extension does not operate a developer-controlled data collection service and does not send user information to the developer.
 
@@ -18,7 +18,7 @@ While a Discord StreamKit Voice overlay is open, the extension may process the f
 * Whether a Discord user is present in the voice channel
 * Whether a Discord user is currently speaking
 * Whether a Discord user is muted
-* Relay connection and heartbeat information
+* Companion connection and heartbeat information
 
 The extension does not capture, record, process, or transmit voice audio or the contents of Discord messages.
 
@@ -41,7 +41,7 @@ The extension uses Chrome session storage to remember the paired Foundry tab and
 
 This information is not stored in a developer-controlled database or transmitted to a developer-controlled server.
 
-Persistent Discord-to-Foundry portrait mappings are managed by the separately installed Foundry VTT Max Headroom module within the user's own Foundry VTT installation.
+Persistent Discord-to-Foundry portrait mappings are managed by the separately installed Voice Reactive Portraits Bar module within the user's own Foundry VTT installation.
 
 ## Data Sharing and Transfers
 
@@ -63,7 +63,7 @@ The extension requests only the browser permissions required for its functionali
 
 **activeTab** permits the user to explicitly select the current Foundry VTT tab for pairing.
 
-**scripting** allows the extension to verify that the selected tab is a compatible Foundry VTT game and communicate with the installed Foundry VTT Max Headroom module.
+**scripting** allows the extension to verify that the selected tab is a compatible Foundry VTT game and communicate with the installed Voice Reactive Portraits Bar Companion module.
 
 **storage** is used for temporary browser-session pairing and relay-status information.
 
@@ -89,4 +89,4 @@ Material changes to this policy will be published with the project documentation
 
 Project documentation and source code are available at:
 
-https://github.com/HetzenGN/Foundry-VTT-Max-Headroom
+https://github.com/HetzenGN/Voice-Reactive-Portraits-Bar
