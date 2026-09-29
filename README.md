@@ -23,6 +23,8 @@ Voice Reactive Portraits Bar requires:
 
 Only the GM acting as the **Relay Host** needs the companion extension and StreamKit. Other Foundry users receive portrait state through Foundry and do not need to install the extension or anything else.
 
+Note that the GM can launch the Desktop version of Foundry VTT, but instead of joining inside the desktop app they can open their web browser and type in http://localhost:30000 in order to join through their web browser and enable the browser extension.
+
 ---
 
 # 1. Authorize Discord StreamKit First
@@ -49,9 +51,11 @@ Once authorization is complete, Voice Reactive Portraits Bar uses the configured
 
 # 2. Install the Foundry Module
 
-This is needed if not found and installed via the Foundry VTT module browser, which I am applying for.
+Foundry Page:
 
-Repository:
+**https://foundryvtt.com/packages/voice-reactive-portraits-bar**
+
+GitHub Repository:
 
 **https://github.com/HetzenGN/Voice-Reactive-Portraits-Bar**
 
@@ -62,7 +66,7 @@ Manifest URL:
 In Foundry:
 
 1. Open **Setup -> Add-on Modules -> Install Module**.
-2. Paste the manifest URL above.
+2. Search for the module name through the built-in browser, or paste the manifest URL above.
 3. Install the module.
 4. Launch your world.
 5. Enable **Voice Reactive Portraits Bar** in Module Management.
@@ -81,7 +85,7 @@ Chrome Web Store:
 
 After installing it:
 
-1. Open your Foundry world in the same Chromium-based browser.
+1. Open your Foundry world in the same Chromium-based browser. If using the Desktop Foundry VTT app then launch the app, but then open a web browser and join via: http://localhost:30000.
 2. Open the Voice Reactive Portraits Bar Companion extension popup. This should be in a small "Extension" clickable in the top right.
 3. Click **Pair Current Foundry Tab** while on the game tab.
 4. Confirm the popup identifies the paired Foundry world and user. Not everything will go green until the Streamkit is open as well.
@@ -129,7 +133,7 @@ Click **Claim Relay Host**. Only one connected GM should own relay authority at 
 Make sure the companion is paired, then:
 
 1. Join the intended Discord voice channel.
-2. Click **Open StreamKit** in the Relay Controller.
+2. Click **Open StreamKit** in the Relay Controller. If this opens the base Streamkit menu and not the Voice Widget directly, then check #4 above.
 3. Leave the StreamKit Voice overlay open while playing. You can minimize this but it must stay open.
 
 The **Browser Companion** setup indicator does not turn green when the extension is first installed but will turn green once there is talking between Discord, the extension, and Foundry.
