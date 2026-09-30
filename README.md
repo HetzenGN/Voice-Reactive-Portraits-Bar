@@ -17,7 +17,7 @@ Please note that Voice Reactive Portraits Bar requires a couple additional steps
 
 Voice Reactive Portraits Bar requires:
 
-- **Foundry VTT v14**
+- **Foundry VTT v13**
 - **The Chrome Web Store-validated Voice Reactive Portraits Bar Companion extension** in a Chromium-based browser like... Chrome.
 - **Discord StreamKit** : a free non-installed web browser overlay for Discord
 
