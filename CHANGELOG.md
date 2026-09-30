@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.1
+
+Successful testing with Found v13 Build 351; set minimum Foundry VTT version to 13.
+
 ## 1.0.0
 
 First stable public release of Voice Reactive Portraits Bar.
