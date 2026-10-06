@@ -17,6 +17,7 @@ export const SETTING_KEYS = Object.freeze({
   SHOW_NAMES: "showNames",
   SPEECH_DECAY_MS: "speechDecayMs",
   ANIMATION_ENABLED: "animationEnabled",
+  SHOW_WELCOME_MESSAGE: "showWelcomeMessage",
 
   USER_BAR_ANCHOR: "userBarAnchor",
   USER_ORIENTATION: "userOrientation",
@@ -41,6 +42,23 @@ export const SETTING_KEYS = Object.freeze({
 // #region Setting Registration
 
 export function registerSettings() {
+    // #region General Settings
+
+  game.settings.register(
+    MODULE_ID,
+    SETTING_KEYS.SHOW_WELCOME_MESSAGE,
+    {
+      name: "Show Welcome Chat Message",
+      hint: "Post the Voice Reactive Portraits Bar introduction message to chat each time the world loads.",
+      scope: "world",
+      config: true,
+      type: Boolean,
+      default: true
+    }
+  );
+
+  // #endregion
+
   // #region Portrait Bar Settings
 
   game.settings.register(

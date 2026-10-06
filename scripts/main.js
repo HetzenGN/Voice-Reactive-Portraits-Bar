@@ -9,7 +9,9 @@ import {
 
 import {
   registerSettings,
-  isPortraitRenderSettingKey
+  isPortraitRenderSettingKey,
+  getSetting,
+  SETTING_KEYS
 } from "./settings.js";
 
 import {
@@ -86,6 +88,14 @@ const WELCOME_MESSAGE = `
 
 async function postWelcomeMessage() {
   if (!game.user?.isActiveGM) {
+    return;
+  }
+
+  if (
+    !getSetting(
+      SETTING_KEYS.SHOW_WELCOME_MESSAGE
+    )
+  ) {
     return;
   }
 
